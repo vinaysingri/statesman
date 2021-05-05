@@ -253,6 +253,7 @@ public class TemplateResource {
     public Response getAllStateTransitions(@PathParam("messageId") String messageId,
                                            @DefaultValue("default") @QueryParam("language") String language,
                                            @DefaultValue("default") @QueryParam("state") String state) {
+
         return Response.ok()
                 .entity(messageConstrutor.constructMessage(messageId,language,state))
                 .build();

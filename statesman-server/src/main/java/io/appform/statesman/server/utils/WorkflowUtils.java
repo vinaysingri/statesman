@@ -95,6 +95,13 @@ public class WorkflowUtils {
                 .build();
     }
 
+    public static StoredMessageConfig toDao(MessageConfig messageConfig) {
+        return StoredMessageConfig.builder()
+                .messageId(messageConfig.getMessageId())
+                .messageConfigBody(messageConfig.getMessageBody())
+                .build();
+    }
+
     public static ActionTemplate toDto(StoredActionTemplate storedActionTemplate) {
         return MapperUtils.deserialize(storedActionTemplate.getData(), ActionTemplate.class);
     }
