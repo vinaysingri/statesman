@@ -1,5 +1,7 @@
 package io.appform.statesman.server.dao.message;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.LoadingCache;
 import io.appform.dropwizard.sharding.dao.LookupDao;
@@ -7,6 +9,7 @@ import io.appform.statesman.engine.MessageConfigStore;
 import io.appform.statesman.model.MessageConfig;
 import io.appform.statesman.model.exception.ResponseCode;
 import io.appform.statesman.model.exception.StatesmanError;
+import io.appform.statesman.server.utils.MapperUtils;
 import io.appform.statesman.server.utils.WorkflowUtils;
 import lombok.extern.slf4j.Slf4j;
 
@@ -39,7 +42,7 @@ public class MessageConfigStoreCommand implements MessageConfigStore {
         try {
             return messageLookupDao.get(messageId)
                     .map(config ->
-                            new MessageConfig(config.getMessageId(), config.getMessageConfigBody()));
+                            new MessageConfig(config.getMessageId(), MapperUtils.readTree(config.getMessageConfigBody())));
         } catch (Exception e) {
             throw StatesmanError.propagate(e, ResponseCode.DAO_ERROR);
         }
@@ -52,7 +55,7 @@ public class MessageConfigStoreCommand implements MessageConfigStore {
             return messageLookupDao
                     .save(WorkflowUtils.toDao(messageConfig))
                     .map(config ->
-                            new MessageConfig(config.getMessageId(), config.getMessageConfigBody()));
+                            new MessageConfig(config.getMessageId(), MapperUtils.readTree(config.getMessageConfigBody())));
 
         } catch (Exception e) {
             throw StatesmanError.propagate(e, ResponseCode.DAO_ERROR);

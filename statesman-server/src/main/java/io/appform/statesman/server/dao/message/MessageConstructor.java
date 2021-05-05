@@ -32,14 +32,14 @@ public class MessageConstructor implements IMessageConstructor {
         }
 
         MessageConfig storeOutput = optionalMessageConfig.get();
-        JsonNode root = MapperUtils.readTree(storeOutput.getMessageBody());
+        JsonNode root = storeOutput.getMessageBody();
         JsonNode languageNode;
 
         if(root == null){
             throw new StatesmanError("No message config found", ResponseCode.NO_PROVIDER_FOUND);
         }else if((root.get(language) == null)){
             if(root.get(DEFAULT_FILED_NAME) == null) {
-                throw new StatesmanError("No ddefault language found", ResponseCode.NO_PROVIDER_FOUND);
+                throw new StatesmanError("No default language found", ResponseCode.NO_PROVIDER_FOUND);
             }else{
                 languageNode = root.get(DEFAULT_FILED_NAME);
             }

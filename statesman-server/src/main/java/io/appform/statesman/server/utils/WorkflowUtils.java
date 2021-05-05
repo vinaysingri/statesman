@@ -13,6 +13,7 @@ import io.appform.statesman.server.dao.workflow.StoredWorkflowInstance;
 import io.appform.statesman.server.dao.workflow.StoredWorkflowTemplate;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -112,9 +113,13 @@ public class WorkflowUtils {
     }
 
     public static StoredMessageConfig toDao(MessageConfig messageConfig) {
-        return StoredMessageConfig.builder()
-                .messageId(messageConfig.getMessageId())
-                .messageConfigBody(messageConfig.getMessageBody())
-                .build();
+        try {
+            return StoredMessageConfig.builder()
+                    .messageId(messageConfig.getMessageId())
+                    .messageConfigBody(messageConfig.getMessageBody().binaryValue())
+                    .build();
+        } catch (IOException e) {
+            return null;
+        }
     }
 }

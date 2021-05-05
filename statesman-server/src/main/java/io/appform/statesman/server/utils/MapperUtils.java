@@ -8,6 +8,7 @@ import io.appform.statesman.model.exception.ResponseCode;
 import io.appform.statesman.model.exception.StatesmanError;
 
 import javax.annotation.Nullable;
+import java.io.IOException;
 
 public class MapperUtils {
     private static ObjectMapper objectMapper;
@@ -113,7 +114,7 @@ public class MapperUtils {
     }
 
     @Nullable
-    public static JsonNode readTree(String data) {
+    public static JsonNode readTree(byte[] data) {
         try {
             if (data == null) {
                 return null;
@@ -122,6 +123,8 @@ public class MapperUtils {
         } catch (JsonProcessingException e) {
             throw StatesmanError.propagate(e, ResponseCode.JSON_ERROR);
 
+        } catch (IOException e) {
+            throw StatesmanError.propagate(e, ResponseCode.JSON_ERROR);
         }
     }
 }

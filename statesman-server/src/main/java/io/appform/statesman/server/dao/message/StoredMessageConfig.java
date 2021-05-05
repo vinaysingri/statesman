@@ -24,5 +24,5 @@ public class StoredMessageConfig {
     private String messageId;
 
     @Column(name = "message_config_body")
-    private String messageConfigBody;
+    private byte[] messageConfigBody;
 }
