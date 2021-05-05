@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "message_configs", uniqueConstraints = {
+@Table(name = "message_config", uniqueConstraints = {
         @UniqueConstraint(columnNames = "message_id")
 })
 @Data

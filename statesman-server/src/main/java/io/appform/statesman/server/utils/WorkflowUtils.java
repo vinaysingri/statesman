@@ -7,6 +7,7 @@ import io.appform.statesman.engine.utils.DateUtils;
 import io.appform.statesman.model.*;
 import io.appform.statesman.model.action.template.*;
 import io.appform.statesman.server.dao.action.StoredActionTemplate;
+import io.appform.statesman.server.dao.message.StoredMessageConfig;
 import io.appform.statesman.server.dao.transition.StoredStateTransition;
 import io.appform.statesman.server.dao.workflow.StoredWorkflowInstance;
 import io.appform.statesman.server.dao.workflow.StoredWorkflowTemplate;
@@ -107,6 +108,13 @@ public class WorkflowUtils {
                 .actionType(actionTemplate.getType().name())
                 .name(actionTemplate.getName())
                 .data(MapperUtils.serialize(actionTemplate))
+                .build();
+    }
+
+    public static StoredMessageConfig toDao(MessageConfig messageConfig) {
+        return StoredMessageConfig.builder()
+                .messageId(messageConfig.getMessageId())
+                .messageConfigBody(messageConfig.getMessageBody())
                 .build();
     }
 }

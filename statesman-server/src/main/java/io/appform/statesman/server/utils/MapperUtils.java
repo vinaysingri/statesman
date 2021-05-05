@@ -2,6 +2,7 @@ package io.appform.statesman.server.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.appform.statesman.model.exception.ResponseCode;
 import io.appform.statesman.model.exception.StatesmanError;
@@ -32,6 +33,7 @@ public class MapperUtils {
     public static <T> T deserialize( byte[] data, TypeReference<T> typeReference) {
         return deserialize(objectMapper, data, typeReference);
     }
+
 
     @Nullable
     public static <T> T deserialize(ObjectMapper mapper, byte[] data, Class<T> valueType) {
@@ -104,6 +106,19 @@ public class MapperUtils {
                 return null;
             }
             return mapper.writeValueAsBytes(data);
+        } catch (JsonProcessingException e) {
+            throw StatesmanError.propagate(e, ResponseCode.JSON_ERROR);
+
+        }
+    }
+
+    @Nullable
+    public static JsonNode readTree(String data) {
+        try {
+            if (data == null) {
+                return null;
+            }
+            return objectMapper.readTree(data);
         } catch (JsonProcessingException e) {
             throw StatesmanError.propagate(e, ResponseCode.JSON_ERROR);
 
