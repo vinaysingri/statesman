@@ -27,7 +27,9 @@ import io.appform.statesman.server.AppConfig;
 import io.appform.statesman.server.dao.action.ActionTemplateStoreCommand;
 import io.appform.statesman.server.dao.callback.CallbackTemplateProvider;
 import io.appform.statesman.server.dao.callback.CallbackTemplateProviderCommand;
+import io.appform.statesman.server.dao.message.IMessageConstructor;
 import io.appform.statesman.server.dao.message.MessageConfigStoreCommand;
+import io.appform.statesman.server.dao.message.MessageConstructor;
 import io.appform.statesman.server.dao.transition.TransitionStoreCommand;
 import io.appform.statesman.server.dao.workflow.WorkflowProviderCommand;
 import io.appform.statesman.server.droppedcalldetector.DroppedCallDetector;
@@ -57,6 +59,7 @@ public class StatesmanModule extends AbstractModule {
                 .annotatedWith(Names.named("foxtrotEventSender"))
                 .to(FoxtrotEventSender.class);
         bind(IdExtractor.class).to(CompoundIdExtractor.class);
+        bind(IMessageConstructor.class).to(MessageConstructor.class);
     }
 
     @Singleton

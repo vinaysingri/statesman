@@ -10,15 +10,19 @@ import io.appform.statesman.model.exception.StatesmanError;
 import io.appform.statesman.server.utils.WorkflowUtils;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
+@Singleton
 public class MessageConfigStoreCommand implements MessageConfigStore {
 
     private final LookupDao<StoredMessageConfig> messageLookupDao;
     private final LoadingCache<String, Optional<MessageConfig>> messageConfigCache;
 
+    @Inject
     public MessageConfigStoreCommand(LookupDao<StoredMessageConfig> messageLookupDao) {
         this.messageLookupDao = messageLookupDao;
         messageConfigCache = Caffeine.newBuilder()

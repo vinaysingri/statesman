@@ -1,16 +1,13 @@
 package io.appform.statesman.server.dao.message;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.appform.statesman.model.MessageConfig;
 import io.appform.statesman.model.exception.ResponseCode;
 import io.appform.statesman.model.exception.StatesmanError;
 import io.appform.statesman.server.utils.MapperUtils;
-import lombok.Builder;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.inject.Inject;
 import java.util.Optional;
 
 
@@ -20,6 +17,7 @@ public class MessageConstructor implements IMessageConstructor {
     private final MessageConfigStoreCommand messageConfigStoreCommand;
     private final String DEFAULT_FILED_NAME = "default";
 
+    @Inject
     public MessageConstructor(MessageConfigStoreCommand messageConfigStoreCommand) {
         this.messageConfigStoreCommand = messageConfigStoreCommand;
     }
@@ -55,22 +53,6 @@ public class MessageConstructor implements IMessageConstructor {
             return languageNode.get(DEFAULT_FILED_NAME).asText();
         }else{
             return root.get(DEFAULT_FILED_NAME).get(DEFAULT_FILED_NAME).asText();
-        }
-    }
-
-    public static void main(String args[]){
-
-        String input = "{\"welcome\": {\"default\": {\"KA\": \"msg1\", \"default\": \"msg2\"}, \"hindi\": {\"RAJ\": \"msg3\", \"UP\": \"msg4\", \"default\": \"msg5\"}, \"marathi\": {\"MAH\": \"msg6\", \"default\": \"msg7\"}}\n" +
-                "\n}";
-
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            JsonNode root = mapper.readTree(input);
-            JsonNode languaugeNode = root.get("welcome");
-            JsonNode stateeNodee = languaugeNode.get("hindi").get("RAJ");
-            System.out.println(stateeNodee);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
         }
     }
 }
